@@ -1,0 +1,84 @@
+/* Configurações Globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+.conteudo-principal {
+  min-height: calc(100vh - 80px); /* Ocupa o resto da tela descontando a navbar */
+}
+
+/* Estilo Comum das Páginas */
+.pagina {
+  padding: 60px 10%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pagina h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #0f172a;
+}
+
+/* Grid do Catálogo e Serviços */
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.card h3 {
+  color: #2563eb;
+  margin-bottom: 10px;
+}
+
+/* Formulário de Contato */
+.form-contato {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 600px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.form-contato input, .form-contato textarea {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.btn-enviar {
+  background-color: #2563eb;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.3s;
+}
+
+.btn-enviar:hover {
+  background-color: #1d4ed8;
+}

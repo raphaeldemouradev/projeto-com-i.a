@@ -1,0 +1,179 @@
+.checkout-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: #f8fafc;
+  min-height: 90vh;
+  position: relative;
+  animation: slideUp 0.5s ease-out;
+}
+
+/* Botão de Voltar para a vitrine */
+.btn-voltar-geral {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: color 0.2s;
+}
+
+.btn-voltar-geral:hover {
+  color: #2563eb;
+}
+
+.checkout-card {
+  background: white;
+  width: 100%;
+  max-width: 480px;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Progresso */
+.barra-progresso {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.passo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.passo .numero {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.passo.ativo .numero {
+  background: #2563eb;
+  color: white;
+}
+
+.passo.ativo .label {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.linha {
+  width: 50px;
+  height: 2px;
+  background: #e2e8f0;
+  margin: 0 15px;
+  margin-bottom: 25px;
+}
+
+/* Formulário */
+h2 {
+  color: #0f172a;
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.instrucao {
+  color: #64748b;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 25px;
+}
+
+.campo-grupo {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.campo-grupo label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.input-checkout {
+  width: 100%;
+  padding: 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.input-checkout:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+/* Resumo de Preço */
+.resumo-caixa {
+  background: #f1f5f9;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 25px;
+}
+
+.resumo-linha {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: #475569;
+}
+
+.resumo-linha.total {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #cbd5e1;
+  color: #0f172a;
+  font-size: 1.2rem;
+}
+
+/* Botoes */
+.botoes-acao {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-principal, .btn-finalizar {
+  width: 100%;
+  padding: 16px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-secundario {
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

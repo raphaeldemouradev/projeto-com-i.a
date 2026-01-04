@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Memória</title>
+    <style>
+        /* CSS Integrado */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        h1 { margin-top: 20px; }
+
+        .stats {
+            margin: 20px;
+            display: flex;
+            gap: 30px;
+            font-size: 1.2rem;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stats span { font-weight: bold; color: #02b3e4; }
+
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(4, 80px);
+            gap: 12px;
+            perspective: 1000px;
+        }
+
+        .card {
+            width: 80px;
+            height: 80px;
+            background-color: #2e3d49;
+            color: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: transform 0.3s, background-color 0.3s;
+            user-select: none;
+        }
+
+        .card.flipped {
+            background-color: #02b3e4;
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            background-color: #2ecc71;
+            color: white;
+            cursor: default;
+            transform: rotateY(180deg);
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover { background-color: #555; }
+    </style>
+</head>
+<body>
+
+    <h1>Jogo da Memória</h1>
+
+    <div class="stats">
+        <div>Cliques: <span id="clicks">0</span></div>
+        <div>Vitórias: <span id="wins">0</span></div>
+    </div>
+
+    <div class="game-container" id="gameBoard"></div>
+
+    <button onclick="resetGame()">Reiniciar Jogo</button>
+
+    <script>
+        // JavaScript Integrado
+        const symbols = ['🍎', '🍌', '🍇', '🍓', '🍍', '🥝', '🍒', '🍉'];
+        let cards = [...symbols, ...symbols];
+        let flippedCards = [];
+        let matchedCount = 0;
+        let clickCount = 0;
+        let winCount = 0;
+
+        const gameBoard = document.getElementById('gameBoard');
+        const clicksDisplay = document.getElementById('clicks');
+        const winsDisplay = document.getElementById('wins');
+
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        function createBoard() {
+            gameBoard.innerHTML = '';
+            flippedCards = [];
+            matchedCount = 0;
+            // Embaralha e cria as cartas
+            shuffle(cards).forEach((symbol) => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.dataset.symbol = symbol;
+                card.innerText = symbol; // O símbolo está lá, mas o CSS esconde se não tiver a classe 'flipped'
+                card.onclick = () => flipCard(card);
+                gameBoard.appendChild(card);
+            });
+        }
+
+        function flipCard(card) {
+            // Evita clicar na mesma carta ou em mais de duas
+            if (flippedCards.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
+                card.classList.add('flipped');
+                flippedCards.push(card);
+                
+                clickCount++;
+                clicksDisplay.innerText = clickCount;
+
+                if (flippedCards.length === 2) {
+                    checkMatch();
+                }
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            
+            if (card1.dataset.symbol === card2.dataset.symbol) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedCount += 2;
+                flippedCards = [];
+
+                if (matchedCount === cards.length) {
+                    winCount++;
+                    winsDisplay.innerText = winCount;
+                    setTimeout(() => alert("🎉 Você encontrou todos os pares!"), 300);
+                }
+            } else {
+                // Se não for par, vira de volta após 1 segundo
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    flippedCards = [];
+                }, 800);
+            }
+        }
+
+        function resetGame() {
+            clickCount = 0;
+            clicksDisplay.innerText = 0;
+            createBoard();
+        }
+
+        // Inicia o jogo pela primeira vez
+        createBoard();
+    </script>
+</body>
+</html>
