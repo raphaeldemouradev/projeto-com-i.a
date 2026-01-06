@@ -1,0 +1,76 @@
+.pagina-detalhes {
+  padding: 60px 10%;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.topo-detalhes {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.topo-detalhes h1 {
+  font-size: 2.5rem;
+  color: #0f172a;
+  text-transform: capitalize;
+  margin: 20px 0 10px;
+}
+
+.btn-voltar {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-voltar:hover {
+  background: #f1f5f9;
+  color: #2563eb;
+}
+
+.galeria-projetos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+}
+
+.card-projeto {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.card-projeto:hover {
+  transform: scale(1.03);
+}
+
+.ilustracao-placeholder {
+  height: 200px;
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-weight: bold;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.info-projeto {
+  padding: 20px;
+}
+
+.info-projeto h3 {
+  font-size: 1.1rem;
+  color: #1e293b;
+  margin-bottom: 5px;
+}
+
+.info-projeto p {
+  font-size: 0.9rem;
+  color: #64748b;
+}

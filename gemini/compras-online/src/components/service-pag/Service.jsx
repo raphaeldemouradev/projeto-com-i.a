@@ -1,38 +1,38 @@
 import React, { useState } from 'react';
 import './service.css';
-// Importamos o Checkout da nova pasta que você criou
-import Checkout from '../checkout-pag/Checkout'; 
+import Checkout from '../checkout-pag/Checkout';
+import { Link } from 'react-router-dom';
 
 const produtosDesign = [
-  { id: 1, nome: "Banner Profissional", preco: 250, icone: "🖼️", desc: "Artes para sites e redes sociais." },
-  { id: 2, nome: "Logotipo Exclusivo", preco: 700, icone: "✨", desc: "Identidade visual única para sua marca." },
-  { id: 3, nome: "Capa de Vídeo", preco: 180, icone: "▶️", desc: "Thumbnails que aumentam seus cliques." },
-  { id: 4, nome: "Cardápio Digital", preco: 350, icone: "🍽️", desc: "Design moderno para seu restaurante." },
+  { id: 1, nome: "Banner Profissional", preco: 250, icone: "🖼️", desc: "Artes impactantes para sites, eventos e redes sociais." },
+  { id: 2, nome: "Logotipo Exclusivo", preco: 700, icone: "✨", desc: "Identidade visual única para destacar sua marca no mercado." },
+  { id: 3, nome: "Capa de Vídeo (Thumb)", preco: 180, icone: "▶️", desc: "Thumbnails otimizadas para aumentar seus cliques no YouTube." },
+  { id: 4, nome: "Cardápio Moderno", preco: 350, icone: "🍽️", desc: "Layout profissional para restaurantes e cardápios digitais." },
 ];
 
 const Service = () => {
-  // Estado para controlar qual item foi clicado para compra
   const [itemParaCheckout, setItemParaCheckout] = useState(null);
 
-  // Se o usuário clicou em um botão, mostramos a tela de Checkout/Agendamento
+  // Alterna para a tela de Checkout se um item for selecionado
   if (itemParaCheckout) {
     return (
       <Checkout 
         item={itemParaCheckout} 
         onVoltar={() => setItemParaCheckout(null)} 
         onFinalizar={() => {
-          alert("Pedido enviado com sucesso!");
+          alert("Pedido recebido! Entraremos em contato em breve.");
           setItemParaCheckout(null);
         }} 
       />
     );
   }
 
-  // Caso contrário, mostra a vitrine de serviços normal
   return (
     <div className="pagina-servico">
-      <h1 className="titulo-servico">Nossos Serviços de Design</h1>
-      <p className="subtitulo-servico">Escolha a solução ideal para o seu negócio</p>
+      <div className="header-servico">
+        <h1 className="titulo-servico">Nossos Serviços</h1>
+        <p className="subtitulo-servico">Soluções de design sob medida para o seu projeto</p>
+      </div>
       
       <div className="grid-servicos-componente">
         {produtosDesign.map((produto) => (
@@ -52,6 +52,13 @@ const Service = () => {
             </button>
           </div>
         ))}
+      </div>
+
+      {/* Seção final para dúvidas que leva ao Contato */}
+      <div className="rodape-servicos-contato">
+        <h3>Procura algo diferente ou personalizado?</h3>
+        <p>Estamos prontos para criar um projeto exclusivo para você.</p>
+        <Link to="/contato" className="btn-duvida-contato">Tem alguma dúvida? Fale conosco!</Link>
       </div>
     </div>
   );

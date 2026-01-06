@@ -1,0 +1,144 @@
+/* Container Principal */
+.catalogo-container {
+  padding: 80px 10%;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Cabeçalho do Catálogo */
+.catalogo-header {
+  text-align: center;
+  margin-bottom: 60px;
+  max-width: 700px;
+}
+
+.catalogo-header h1 {
+  font-size: 3rem;
+  color: #0f172a;
+  font-weight: 800;
+  margin-bottom: 15px;
+  letter-spacing: -1px;
+}
+
+.catalogo-header p {
+  font-size: 1.2rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* Grid de Vitrine */
+.vitrine-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Card Individual */
+.vitrine-card {
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 24px;
+  border: 1px solid #f1f5f9;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.vitrine-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+  border-color: #3b82f6;
+}
+
+/* Emojis/Ícones */
+.vitrine-emoji {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.vitrine-card h3 {
+  font-size: 1.5rem;
+  color: #1e293b;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.vitrine-card p {
+  color: #64748b;
+  font-size: 1rem;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+/* Botão Ver Mais (Dentro do Card) */
+.btn-ver-mais {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-ver-mais:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+/* --- ÁREA DO BOTÃO DE SERVIÇOS (ABAIXO DA GRID) --- */
+.container-cta-catalogo {
+  margin-top: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-cta-servicos {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 22px 50px;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
+}
+
+.btn-cta-servicos:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.05);
+  box-shadow: 0 20px 35px -5px rgba(37, 99, 235, 0.5);
+}
+
+.btn-cta-servicos:active {
+  transform: scale(0.98);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .catalogo-container {
+    padding: 60px 5%;
+  }
+
+  .catalogo-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .btn-cta-servicos {
+    width: 100%;
+    padding: 18px 20px;
+    font-size: 1rem;
+  }
+}
