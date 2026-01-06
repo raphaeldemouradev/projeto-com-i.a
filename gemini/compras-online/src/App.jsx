@@ -1,10 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+/*components*/ 
 import Navbar from './components/Navbar/Navbar';
 import Service from './components/service-pag/Service';
 import Catalogo from './components/catalogo-pag/Catalogo';
 import Detalhes from './components/detalhes/Detalhes';
 import Contato from './components/contato-pag/Contato';
+
+/*estilo*/
 import './App.css';
 
 
