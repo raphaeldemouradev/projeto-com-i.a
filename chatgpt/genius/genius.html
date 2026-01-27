@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Genius Neon - Jogo da Memória</title>
+  <style>
+    body {
+      background: radial-gradient(circle, #000 40%, #020024 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      color: white;
+      margin: 0;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .game {
+      position: relative;
+      width: min(80vw, 320px);
+      height: min(80vw, 320px);
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 30px #00ffff55;
+    }
+
+    .btn {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s, box-shadow 0.2s;
+    }
+
+    .btn.active {
+      opacity: 1;
+      box-shadow: 0 0 30px currentColor;
+    }
+
+    .blue { background: #1e90ff; top: 0; left: 0; color: #1e90ff; }
+    .yellow { background: #f1c40f; top: 0; right: 0; color: #f1c40f; }
+    .red { background: #e74c3c; bottom: 0; right: 0; color: #e74c3c; }
+    .green { background: #2ecc71; bottom: 0; left: 0; color: #2ecc71; }
+
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40%;
+      height: 40%;
+      background: #000;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 0 20px #0ff;
+      pointer-events: none;
+    }
+
+    .info, .score {
+      font-size: 14px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="game" id="game">
+      <div class="btn blue" data-color="blue"></div>
+      <div class="btn yellow" data-color="yellow"></div>
+      <div class="btn red" data-color="red"></div>
+      <div class="btn green" data-color="green"></div>
+
+      <div class="center">ChatGPT</div>
+    </div>
+
+    <div class="info" id="info">Toque para começar</div>
+    <div class="score" id="score">🏆 Recorde: 0</div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.btn');
+    const info = document.getElementById('info');
+    const scoreEl = document.getElementById('score');
+    const game = document.getElementById('game');
+
+    const colors = ['blue', 'yellow', 'red', 'green'];
+    const sounds = {
+        blue: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'),
+        yellow: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'),
+        red: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'),
+        green: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'),
+        error: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3')
+    };
+
+    let sequence = [];
+    let userSequence = [];
+    let waiting = false;
+    let record = localStorage.getItem('record') || 0;
+    scoreEl.textContent = `🏆 Recorde: ${record}`;
+
+    function playSound(color) {
+      sounds[color].currentTime = 0;
+      sounds[color].play();
+    }
+
+    function playSequence() {
+      let i = 0;
+      waiting = true;
+      const interval = setInterval(() => {
+        const color = sequence[i];
+        const btn = document.querySelector(`.${color}`);
+        btn.classList.add('active');
+        playSound(color);
+        setTimeout(() => btn.classList.remove('active'), 300);
+        i++;
+        if (i >= sequence.length) {
+          clearInterval(interval);
+          waiting = false;
+        }
+      }, 600);
+    }
+
+    function nextRound() {
+      userSequence = [];
+      sequence.push(colors[Math.floor(Math.random() * colors.length)]);
+      info.textContent = `Rodada ${sequence.length}`;
+      setTimeout(playSequence, 600);
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (waiting || sequence.length === 0) return;
+
+        const color = btn.dataset.color;
+        userSequence.push(color);
+        btn.classList.add('active');
+        playSound(color);
+        setTimeout(() => btn.classList.remove('active'), 200);
+
+        const index = userSequence.length - 1;
+        if (userSequence[index] !== sequence[index]) {
+          sounds.error.play();
+          info.textContent = 'Errou! Toque para reiniciar';
+          if (sequence.length - 1 > record) {
+            record = sequence.length - 1;
+            localStorage.setItem('record', record);
+            scoreEl.textContent = `🏆 Recorde: ${record}`;
+          }
+          sequence = [];
+          return;
+        }
+
+        if (userSequence.length === sequence.length) {
+          setTimeout(nextRound, 800);
+        }
+      });
+    });
+
+    game.addEventListener('click', () => {
+      if (sequence.length === 0) {
+        nextRound();
+      }
+    });
+  </script>
+</body>
+</html>
