@@ -2,5 +2,5 @@
 
 ## Gemini
 <ul>
-  <li>Jogo da Memória: <a href:"https://raphaeldemouradev.github.io/projeto-com-i.a/gemini/jogo-memoria/index.html">Link</a></li>
+  <li>Jogo da Memória: <a href="https://raphaeldemouradev.github.io/projeto-com-i.a/gemini/jogo-memoria/index.html">Link</a></li>
 </ul>
