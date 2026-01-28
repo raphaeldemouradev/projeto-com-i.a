@@ -1,0 +1,16 @@
+.services {
+  padding: 40px;
+}
+
+.box {
+  background: #1a1a1a;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 400px;
+}
+
+select {
+  width: 100%;
+  margin: 15px 0;
+  padding: 10px;
+}

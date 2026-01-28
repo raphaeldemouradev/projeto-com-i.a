@@ -1,0 +1,22 @@
+.details {
+  display: flex;
+  gap: 40px;
+  padding: 40px;
+}
+
+.details img {
+  width: 400px;
+  border-radius: 12px;
+}
+
+.info button {
+  margin-right: 10px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.primary {
+  background: #00ff99;
+}

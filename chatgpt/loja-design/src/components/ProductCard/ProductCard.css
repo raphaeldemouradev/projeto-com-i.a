@@ -1,0 +1,32 @@
+.card {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 16px;
+  width: 250px;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.card button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #00ff99;
+  cursor: pointer;
+}
+
+.card .secondary {
+  background: transparent;
+  border: 1px solid #00ff99;
+  color: #00ff99;
+}
