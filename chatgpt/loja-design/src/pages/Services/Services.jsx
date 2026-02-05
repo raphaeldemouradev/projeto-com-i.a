@@ -1,39 +1,77 @@
-import { useParams, useNavigate } from "react-router-dom"
-import { products } from "../../data/products"
+import { Link, useNavigate } from "react-router-dom"
 import "./Services.css"
 
-function Services() {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const product = products.find(p => p.id === Number(id))
+const services = [
+  {
+    id: 1,
+    title: "Logotipo",
+    description: "Criação de identidade visual profissional",
+    price: "R$ 150"
+  },
+  {
+    id: 2,
+    title: "Banner",
+    description: "Artes para redes sociais e anúncios",
+    price: "R$ 80"
+  },
+  {
+    id: 3,
+    title: "Cardápio",
+    description: "Cardápios digitais e impressos",
+    price: "R$ 120"
+  },
+  {
+    id: 4,
+    title: "Cartaz",
+    description: "Cartazes promocionais",
+    price: "R$ 90"
+  }
+]
 
-  if (!product) return <p>Serviço não encontrado</p>
+function Service() {
+  const navigate = useNavigate()
 
   return (
-    <div className="services">
-      <h2>Confirmação do Serviço</h2>
+    <div className="service-page">
 
-      <div className="box">
-        <h3>{product.title}</h3>
-        <p>Categoria: {product.category}</p>
-        <strong>{product.price}</strong>
-
-        <select>
-          <option>Design padrão</option>
-          <option>Design premium (+ revisão)</option>
-          <option>Design urgente</option>
-        </select>
-
-        <div className="buttons">
-          <button onClick={() => navigate(-1)}>Voltar</button>
-
-          <button className="primary">
-            Ir para pagamento
-          </button>
-        </div>
+      {/* VOLTAR */}
+      <div className="service-top">
+        <Link to="/" className="back-link">
+          ← Voltar para vitrine
+        </Link>
       </div>
+
+      {/* HERO SERVICE */}
+      <section className="service-hero">
+        <h1>Nossos serviços</h1>
+        <p>Escolha o serviço ideal para o seu projeto</p>
+      </section>
+
+      {/* LISTA */}
+      <section className="service-list">
+        {services.map(service => (
+          <div key={service.id} className="service-card">
+
+            <div className="service-img" />
+
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+            <strong className="price">{service.price}</strong>
+
+            <button
+              onClick={() =>
+                navigate("/pagamento", {
+                  state: { product: service }
+                })
+              }
+            >
+              Fazer pedido
+            </button>
+          </div>
+        ))}
+      </section>
     </div>
   )
 }
 
-export default Services
+export default Service

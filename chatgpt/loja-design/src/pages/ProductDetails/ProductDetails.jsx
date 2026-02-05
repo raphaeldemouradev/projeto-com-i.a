@@ -1,37 +1,48 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { products } from "../../data/products";
-import "./ProductDetails.css";
+import { useParams, useNavigate } from "react-router-dom"
+import { products } from "../../data/products"
+import "./ProductDetails.css"
 
 function ProductDetails() {
-    const { id } = useParams();
-    const navigate = useNavigate();
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const product = products.find(p => p.id === Number(id))
 
-    const product = products.find(p => p.id === Number(id))
+  return (
+    <div className="product-details">
 
-    if (!product) return <p>Produto não encontrado</p>
+      <button
+        className="back-btn"
+        onClick={() => navigate("/")}
+      >
+        ← Voltar para vitrine
+      </button>
 
-    return (
-        <div className="details">
-            <img src={product.image} alt={product.title} />
+      <h2 className="title">{product.title}</h2>
 
-            <div className="info">
-                <h2>{product.title}</h2>
-                <p>{product.description || "Descrição detalhada do design."}</p>
-                <strong>{product.price}</strong>
-
-                <div className="buttons">
-                    <button onClick={() => navigate(-1)}>Voltar</button>
-
-                    <button
-                        className="primary"
-                        onClick={() => navigate(`/servicos/${product.id}`)}
-                    >
-                        Escolher serviço
-                    </button>
-                </div>
+      <section className="mockups">
+        {[1, 2, 3, 4, 5].map(i => (
+          <div key={i} className="mockup">
+            <div className="mockup-img" />
+            <div className="mockup-info">
+              <span>Visual {i + 0}</span>
             </div>
-        </div>
-    )
+          </div>
+        ))}
+      </section>
+
+      <p className="description">
+        Este produto inclui a criação de um design personalizado,
+        desenvolvido conforme as informações fornecidas pelo cliente.
+      </p>
+
+      <button 
+        className="order-btn"
+        onClick={() => navigate(`/servicos/${product.id}`)}
+      >
+        Fazer um pedido
+      </button>
+    </div>
+  )
 }
 
 export default ProductDetails

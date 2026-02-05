@@ -1,16 +1,83 @@
-.services {
-  padding: 40px;
+.service-page {
+  padding: 24px 16px;
 }
 
-.box {
-  background: #1a1a1a;
-  padding: 30px;
-  border-radius: 12px;
-  max-width: 400px;
+/* TOPO */
+.service-top {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-select {
+.back-link {
+  text-decoration: none;
+  color: #00ff99;
+  font-weight: 500;
+}
+
+/* HERO */
+.service-hero {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.service-hero h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+/* LISTA */
+.service-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* CARD */
+.service-card {
+  background: #111;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.service-img {
   width: 100%;
-  margin: 15px 0;
-  padding: 10px;
+  height: 160px;
+  background: #1f1f1f;
+  border-radius: 12px;
+}
+
+.price {
+  margin-top: 8px;
+  font-size: 1.1rem;
+  color: #00ff99;
+}
+
+.service-card button {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 30px;
+  border: none;
+  background: #00ff99;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* TABLET */
+@media (min-width: 768px) {
+  .service-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* DESKTOP */
+@media (min-width: 1024px) {
+  .service-list {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1100px;
+    margin: auto;
+  }
 }

@@ -1,17 +1,21 @@
-import { Link } from 'react-router-dom'
-import './ProductCard.css'
+import { Link } from "react-router-dom"
+import "./ProductCard.css"
 
-function ProductCard({ product }) {
+function ProductCard({ product, index }) {
   return (
-    <div className="card">
-      <img src={product.image} alt={product.title} />
-      <h3>{product.title}</h3>
-      <p>{product.category}</p>
-      <strong>{product.price}</strong>
-      
-      <Link to={`/produto/${product.id}`}>
-        <button className="secundary">Ver mais</button>
-      </Link>
+    <div className="product-card" style={{ animationDelay: `${index * 0.1}s` }}>
+      <div className="image-placeholder">
+        {/* imagem futura */}
+      </div>
+
+      <div className="info">
+        <h3>{product.title}</h3>
+        <p>{product.category}</p>
+
+        <Link to={`/produto/${product.id}`}>
+          <button>Ver mais</button>
+        </Link>
+      </div>
     </div>
   )
 }

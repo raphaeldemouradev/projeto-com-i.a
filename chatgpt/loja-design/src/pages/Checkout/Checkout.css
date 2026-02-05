@@ -1,0 +1,46 @@
+.checkout-page {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkout {
+  background: #1a1a1a;
+  padding: 36px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.box {
+  margin-bottom: 20px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: #00ff99;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #111;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 360px;
+}
