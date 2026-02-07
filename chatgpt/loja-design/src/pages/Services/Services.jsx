@@ -1,35 +1,13 @@
 import { Link, useNavigate } from "react-router-dom"
 import "./Services.css"
+import { products } from "../../data/products"
 
-const services = [
-  {
-    id: 1,
-    title: "Logotipo",
-    description: "Criação de identidade visual profissional",
-    price: "R$ 150"
-  },
-  {
-    id: 2,
-    title: "Banner",
-    description: "Artes para redes sociais e anúncios",
-    price: "R$ 80"
-  },
-  {
-    id: 3,
-    title: "Cardápio",
-    description: "Cardápios digitais e impressos",
-    price: "R$ 120"
-  },
-  {
-    id: 4,
-    title: "Cartaz",
-    description: "Cartazes promocionais",
-    price: "R$ 90"
-  }
-]
-
-function Service() {
+function Services() {
   const navigate = useNavigate()
+
+  function handleOrder(productId) {
+    navigate(`/payment/${productId}`)
+  }
 
   return (
     <div className="service-page">
@@ -49,22 +27,17 @@ function Service() {
 
       {/* LISTA */}
       <section className="service-list">
-        {services.map(service => (
-          <div key={service.id} className="service-card">
+        {products.map(product => (
+          <div key={product.id} className="service-card">
 
             <div className="service-img" />
 
-            <h3>{service.title}</h3>
-            <p>{service.description}</p>
-            <strong className="price">{service.price}</strong>
+            <h3>{product.title}</h3>
+            <p>{product.description}</p>
+            <strong className="price">{product.price}</strong>
 
             <button
-              onClick={() =>
-                navigate("/pagamento", {
-                  state: { product: service }
-                })
-              }
-            >
+              onClick={() => handleOrder(product.id)}>
               Fazer pedido
             </button>
           </div>
@@ -74,4 +47,4 @@ function Service() {
   )
 }
 
-export default Service
+export default Services

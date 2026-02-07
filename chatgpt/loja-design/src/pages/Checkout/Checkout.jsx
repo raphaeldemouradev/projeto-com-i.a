@@ -1,56 +1,91 @@
-import { useContext, useState } from "react"
-import { OrderContext } from "../../context/OrderContext"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
+import { useState } from "react"
 import "./Checkout.css"
 
 function Checkout() {
-  const { order } = useContext(OrderContext)
-  const [open, setOpen] = useState(false)
   const navigate = useNavigate()
+  const { state } = useLocation()
 
-  if (!order) return <p>Pedido não encontrado</p>
+  const [showPopup, setShowPopup] = useState(false)
+  
+  const { product, customer } = state || {}
+
+  if (!product || !customer) {
+    return <p>Dados não encontrados.</p>
+  }
+
+  function handleFinish() {
+    setShowPopup(true)
+  }
 
   return (
     <div className="checkout-page">
-      <div className="checkout">
-        <h2>Finalizar compra</h2>
 
-        <div className="box">
-          <h3>Produto</h3>
-          <p>{order.product.title}</p>
-          <strong>{order.product.price}</strong>
-        </div>
-
-        <div className="box">
-          <h3>Seus dados</h3>
-          <p><strong>Nome:</strong> {order.user.name}</p>
-          <p><strong>Email:</strong> {order.user.email}</p>
-          <p><strong>WhatsApp:</strong> {order.user.whatsapp}</p>
-          {order.user.idea && (
-            <p><strong>Descrição:</strong> {order.user.idea}</p>
-          )}
-        </div>
-
-        <button onClick={() => setOpen(true)}>
-          Confirmar compra
+      {/* VOLTAR */}
+      <div className="checkout-top">
+        <button onClick={() => navigate(-1)}>
+          ← Voltar
         </button>
       </div>
 
-      {open && (
-        <div className="modal">
-          <div className="modal-content">
-            <h3>🎉 Obrigado pela compra!</h3>
-            <p>
-              Seu pedido foi recebido com sucesso.
-              Em breve entraremos em contato.
-            </p>
+      {/* BOX */}
+      <div className="checkout-box">
+        <h2>Confirmação do pedido</h2>
 
-            <button onClick={() => navigate("/contato")}>
-              Ir para contato
-            </button>
+        <div className="checkout-item">
+          <span>Serviço</span>
+          <strong>{product.title}</strong>
+        </div>
+
+        <div className="checkout-item">
+          <span>Tipo</span>
+          <strong>Serviço de design</strong>
+        </div>
+
+        <div className="checkout-item">
+          <span>Preço</span>
+          <strong>{product.price}</strong>
+        </div>
+
+        <div className="checkout-item">
+          <span>Cliente</span>
+          <strong>{customer.name}</strong>
+        </div>
+
+        <div className="checkout-item">
+          <span>Email</span>
+          <strong>{customer.email}</strong>
+        </div>
+
+        <div className="checkout-description">
+          <span>Descrição do pedido</span>
+          <p>{customer.details}</p>
+        </div>
+
+        <button className="finish-btn" onClick={handleFinish}>
+          Finalizar pedido
+        </button>
+      </div>
+
+      {/* POP-UP */}
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <h3>Obrigado pela compra! 🎉</h3>
+            <p>Seu pedido foi enviado com sucesso.</p>
+
+            <div className="popup-actions">
+              <button onClick={() => navigate("/contato")}>
+                Contato
+              </button>
+              <button onClick={() => navigate("/")}>
+                OK
+              </button>
+            </div>
           </div>
         </div>
       )}
+
     </div>
   )
 }

@@ -5,7 +5,16 @@ import "./ProductDetails.css"
 function ProductDetails() {
   const { id } = useParams()
   const navigate = useNavigate()
+
   const product = products.find(p => p.id === Number(id))
+
+  if (!product) {
+    return <p>Produto não encontrado</p>
+  }
+
+  function handleFinishOrder() {
+    navigate(`/payment/${product.id}`)
+  }
 
   return (
     <div className="product-details">
@@ -35,10 +44,7 @@ function ProductDetails() {
         desenvolvido conforme as informações fornecidas pelo cliente.
       </p>
 
-      <button 
-        className="order-btn"
-        onClick={() => navigate(`/servicos/${product.id}`)}
-      >
+      <button className="order-btn" onClick={handleFinishOrder}>
         Fazer um pedido
       </button>
     </div>
