@@ -9,5 +9,5 @@
 ## Chatgpt
 <ul>
   <li>Genius game: <a href="https://raphaeldemouradev.github.io/projeto-com-i.a/chatgpt/genius/genius.html" target="_blank">Link</a></li>
-  <li>Loja Online (melhor projeto): <a href="https://mvp-compras-online.netlify.app/" target="_blank">Link</a></li>
+  <li>Loja Online (melhor projeto): <a href="https://compras-online-gpt.netlify.app/" target="_blank">Link</a></li>
 </ul>
