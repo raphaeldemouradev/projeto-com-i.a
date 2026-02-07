@@ -13,17 +13,23 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <div className="conteudo-principal">
-        <Routes>
-          <Route path="/" element={<Catalogo />} />
-          <Route path="/detalhes/:id" element={<Detalhes />} />
-          <Route path="/servicos" element={<Service />} />
-          <Route path="/contato" element={<Contato />} />
-        </Routes>
-      </div>
-    </Router>
+    <div>
+      <Router>
+        <Navbar />
+        <div className="conteudo-principal">
+          <Routes>
+            <Route path="/" element={<Catalogo />} />
+            <Route path="/detalhes/:id" element={<Detalhes />} />
+            <Route path="/servicos" element={<Service />} />
+            <Route path="/contato" element={<Contato />} />
+          </Routes>
+        </div>
+      </Router>
+
+      <footer>
+        <p>© 2026 <a href="https://github.com/raphaeldemouradev">Raphael.Dev</a> - Todos os direitos reservados.</p>
+      </footer>
+    </div>
   );
 }
 
