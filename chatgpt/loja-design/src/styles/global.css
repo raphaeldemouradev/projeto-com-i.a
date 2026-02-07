@@ -9,3 +9,16 @@ body {
   background: #0f0f0f;
   color: #fff;
 }
+
+footer {
+  padding: 10px;
+  text-align: center;
+  background-color: black;
+  margin-top: auto;
+  margin-top: 8vh;
+}
+
+footer a {
+  color: white;
+  text-decoration: none;
+}
