@@ -3,36 +3,96 @@
     --bg: #0f172a;
     --glass: rgba(255, 255, 255, 0.05);
     --border: rgba(255, 255, 255, 0.1);
+    --ai-bubble: rgba(255, 255, 255, 0.1);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
     background-color: var(--bg);
     color: white;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100dvh; /* Altura dinâmica para mobile */
+    height: 100dvh; /* Suporte para mobile */
+    overflow: hidden;
 }
 
-/* Container que vira tela cheia no mobile */
+/* Card Principal */
 .chat-card {
     width: 100%;
     height: 100%;
-    max-width: 500px; /* Limita largura no PC */
-    max-height: 900px; /* Limita altura no PC */
+    max-width: 500px;
+    max-height: 900px;
     background: var(--glass);
     backdrop-filter: blur(15px);
     border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
-/* Customização da Barra de Rolagem */
+/* Desktop Check */
+@media (min-width: 600px) {
+    .chat-card {
+        height: 85vh;
+        border-radius: 28px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* Cabeçalho */
+.chat-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border);
+}
+
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-dot {
+    width: 8px; height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #22c55e;
+}
+
+#btn-mute {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+    transition: 0.3s;
+}
+
+/* Janela de Chat */
+#chat-window {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-behavior: smooth;
+}
+
+/* Customização da Scrollbar */
 #chat-window::-webkit-scrollbar {
-    width: 5px;
+    width: 4px;
 }
 #chat-window::-webkit-scrollbar-track {
     background: transparent;
@@ -42,57 +102,14 @@ body {
     border-radius: 10px;
 }
 
-#chat-window {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    scroll-behavior: smooth;
-}
-
-/* Ajustes para Desktop */
-@media (min-width: 600px) {
-    .chat-card {
-        height: 85vh;
-        border-radius: 28px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    }
-}
-
-/* ... (Mantenha os estilos de .message e .input-area que já temos) ... */
-
-.chat-header {
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 1px solid var(--border);
-}
-
-.status-dot {
-    width: 10px; height: 10px;
-    background: #22c55e;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #22c55e;
-}
-
-#chat-window {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
+/* Bolhas de Mensagem */
 .message {
-    max-width: 85%;
+    max-width: 80%;
     padding: 12px 16px;
     border-radius: 18px;
-    font-size: 14px;
-    animation: fadeIn 0.3s ease;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    animation: slideUp 0.3s ease forwards;
 }
 
 .user-msg {
@@ -103,53 +120,56 @@ body {
 
 .ai-msg {
     align-self: flex-start;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--ai-bubble);
     border-bottom-left-radius: 4px;
 }
 
+/* Área de Entrada */
 .input-area {
     padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
     display: flex;
     gap: 10px;
-    background: rgba(0,0,0,0.2);
+    align-items: center;
 }
 
 input {
     flex: 1;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 10px 15px;
+    border-radius: 12px;
+    padding: 12px 15px;
     color: white;
+    outline: none;
 }
 
-button {
+.btn-icon {
+    background: var(--primary);
     border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: white;
     width: 45px; height: 45px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: 0.3s;
 }
 
-.btn-primary { background: var(--primary); color: white; }
-.btn-secondary { background: rgba(255,255,255,0.1); color: white; }
+#btn-voz { background: rgba(255, 255, 255, 0.1); }
 
-/* Efeito quando o microfone está ativo */
+/* Feedback Visual do Microfone */
 .recording {
     background: #ef4444 !important;
     animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
     70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
     100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }

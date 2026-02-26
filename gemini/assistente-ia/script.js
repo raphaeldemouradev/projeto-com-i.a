@@ -1,110 +1,71 @@
-/**
- * ARQUIVO: script.js
- * FUNÇÃO: Controle de interface, voz e lógica de interação.
- */
-
 const chatWindow = document.getElementById('chat-window');
 const inputField = document.getElementById('user-input');
 const btnEnviar = document.getElementById('btn-enviar');
 const btnVoz = document.getElementById('btn-voz');
+const btnMute = document.getElementById('btn-mute');
 
-// 1. CONFIGURAÇÃO DE RECONHECIMENTO DE VOZ (OUVIR)
+let audioAtivado = true;
+
+// 1. CONFIGURAÇÃO DE VOZ (OUVIR)
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
-
 recognition.lang = 'pt-BR';
-recognition.continuous = false; // Para de ouvir quando o usuário faz uma pausa
-recognition.interimResults = false; // Só retorna o texto final da frase
 
-// 2. FUNÇÃO PARA A IA FALAR (SÍNTESE DE VOZ)
+// 2. CONFIGURAÇÃO DE FALA (FALAR)
 function falarTexto(texto) {
-    // Cancela qualquer fala que esteja acontecendo agora
+    if (!audioAtivado) return;
+    
     window.speechSynthesis.cancel();
-    
-    const mensagem = new SpeechSynthesisUtterance(texto);
-    mensagem.lang = 'pt-BR';
-    mensagem.rate = 1.6; // Velocidade da fala (0.1 a 10)
-    mensagem.pitch = 1;  // Tom da voz (0 a 2)
-    
-    window.speechSynthesis.speak(mensagem);
+    const msg = new SpeechSynthesisUtterance(texto);
+    msg.lang = 'pt-BR';
+    window.speechSynthesis.speak(msg);
 }
 
-// 3. FUNÇÃO PARA ADICIONAR MENSAGENS NA TELA
-function adicionarMensagem(texto, tipo) {
-    const div = document.createElement('div');
-    div.classList.add('message', tipo);
-    div.innerText = texto;
-    
-    chatWindow.appendChild(div);
-    
-    // Scroll automático para a última mensagem
-    chatWindow.scrollTo({
-        top: chatWindow.scrollHeight,
-        behavior: 'smooth'
-    });
-}
+// 3. ALTERNAR MUDO/SOM
+btnMute.addEventListener('click', () => {
+    audioAtivado = !audioAtivado;
+    if (audioAtivado) {
+        btnMute.innerHTML = '<i class="fas fa-volume-up"></i>';
+        btnMute.style.opacity = "1";
+    } else {
+        btnMute.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        btnMute.style.opacity = "0.5";
+        window.speechSynthesis.cancel();
+    }
+});
 
-// 4. LÓGICA DE PROCESSAMENTO DA MENSAGEM
-function processarMensagem(texto) {
+// 4. FUNÇÃO DE ENVIO
+function enviarMensagem(texto) {
     if (texto.trim() === "") return;
 
-    // Adiciona a mensagem do usuário na tela
-    adicionarMensagem(texto, 'user-msg');
+    // Mensagem do usuário
+    adicionarBolha(texto, 'user-msg');
     inputField.value = "";
 
-    // Simula o tempo de "pensamento" da IA
+    // Resposta da IA
     setTimeout(() => {
-        // buscarResposta() vem do seu arquivo database.js
-        const resposta = buscarResposta(texto); 
-        
-        adicionarMensagem(resposta, 'ai-msg');
+        const resposta = buscarResposta(texto); // Puxa do database.js
+        adicionarBolha(resposta, 'ai-msg');
         falarTexto(resposta);
-    }, 700);
+    }, 600);
 }
 
-// 5. EVENTOS DE INTERAÇÃO (CLIQUE E TECLADO)
+function adicionarBolha(texto, classe) {
+    const div = document.createElement('div');
+    div.classList.add('message', classe);
+    div.innerText = texto;
+    chatWindow.appendChild(div);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
 
-// Enviar ao clicar no botão de seta
-btnEnviar.addEventListener('click', () => {
-    processarMensagem(inputField.value);
-});
+// 5. EVENTOS
+btnEnviar.addEventListener('click', () => enviarMensagem(inputField.value));
+inputField.addEventListener('keypress', (e) => { if(e.key === 'Enter') enviarMensagem(inputField.value); });
 
-// Enviar ao apertar a tecla Enter
-inputField.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        processarMensagem(inputField.value);
-    }
-});
-
-// Controle do Microfone
 btnVoz.addEventListener('click', () => {
-    try {
-        recognition.start();
-    } catch (error) {
-        console.error("O reconhecimento já está ativo.");
-    }
+    try { recognition.start(); } catch(e) {}
 });
 
-// Quando o microfone começa a ouvir
-recognition.onstart = () => {
-    btnVoz.classList.add('recording');
-    inputField.placeholder = "Ouvindo...";
-};
-
-// Quando o microfone termina de ouvir com sucesso
-recognition.onresult = (event) => {
-    const textoFulado = event.results[0][0].transcript;
-    processarMensagem(textoFulado);
-};
-
-// Quando o microfone desliga (por erro ou fim de fala)
-recognition.onend = () => {
-    btnVoz.classList.remove('recording');
-    inputField.placeholder = "Digite ou fale...";
-};
-
-// Tratamento de erros de áudio
-recognition.onerror = (event) => {
-    console.error("Erro no microfone: ", event.error);
-    btnVoz.classList.remove('recording');
-};
+recognition.onstart = () => btnVoz.classList.add('recording');
+recognition.onend = () => btnVoz.classList.remove('recording');
+recognition.onresult = (e) => enviarMensagem(e.results[0][0].transcript);

@@ -18,6 +18,16 @@ const bancoDados = {
     "ajuda": {
         keywords: ["ajuda", "o que você faz", "ajudar"],
         resposta: "Eu posso te dizer as horas, conversar um pouco e mudar as cores do sistema!"
+    },
+    "google": {
+        keywords: ["abrir google", "pesquisar"],
+        resposta: "Certo, abrindo o Google.",
+        acao: () => window.open('https://www.google.com', '_blank')
+    },
+    "youtube": {
+        keywords: ["abrir youtube", "ver vídeo"],
+        resposta: "Abrindo o YouTube para você.",
+        acao: () => window.open('https://www.youtube.com', '_blank')
     }
 };
 
@@ -29,9 +39,12 @@ function buscarResposta(mensagemUsuario) {
     const texto = mensagemUsuario.toLowerCase();
     
     for (let categoria in bancoDados) {
-        const encontrou = bancoDados[categoria].keywords.some(keyword => texto.includes(keyword));
+        const item = bancoDados[categoria];
+        const encontrou = item.keywords.some(keyword => texto.includes(keyword));
+        
         if (encontrou) {
-            return bancoDados[categoria].resposta;
+            if (item.acao) item.acao(); // Executa a função de abrir link se existir
+            return item.resposta;
         }
     }
     return respostaPadrao;
