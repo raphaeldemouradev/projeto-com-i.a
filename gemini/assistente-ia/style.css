@@ -1,0 +1,155 @@
+:root {
+    --primary: #6366f1;
+    --bg: #0f172a;
+    --glass: rgba(255, 255, 255, 0.05);
+    --border: rgba(255, 255, 255, 0.1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh; /* Altura dinâmica para mobile */
+}
+
+/* Container que vira tela cheia no mobile */
+.chat-card {
+    width: 100%;
+    height: 100%;
+    max-width: 500px; /* Limita largura no PC */
+    max-height: 900px; /* Limita altura no PC */
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Customização da Barra de Rolagem */
+#chat-window::-webkit-scrollbar {
+    width: 5px;
+}
+#chat-window::-webkit-scrollbar-track {
+    background: transparent;
+}
+#chat-window::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+}
+
+#chat-window {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    scroll-behavior: smooth;
+}
+
+/* Ajustes para Desktop */
+@media (min-width: 600px) {
+    .chat-card {
+        height: 85vh;
+        border-radius: 28px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+}
+
+/* ... (Mantenha os estilos de .message e .input-area que já temos) ... */
+
+.chat-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.status-dot {
+    width: 10px; height: 10px;
+    background: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #22c55e;
+}
+
+#chat-window {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    font-size: 14px;
+    animation: fadeIn 0.3s ease;
+}
+
+.user-msg {
+    align-self: flex-end;
+    background: var(--primary);
+    border-bottom-right-radius: 4px;
+}
+
+.ai-msg {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 4px;
+}
+
+.input-area {
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    background: rgba(0,0,0,0.2);
+}
+
+input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 10px 15px;
+    color: white;
+}
+
+button {
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px; height: 45px;
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-secondary { background: rgba(255,255,255,0.1); color: white; }
+
+/* Efeito quando o microfone está ativo */
+.recording {
+    background: #ef4444 !important;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
