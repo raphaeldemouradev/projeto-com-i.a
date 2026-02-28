@@ -4,6 +4,7 @@
 <ul>
   <li>Jogo da Memória: <a href="https://raphaeldemouradev.github.io/projeto-com-i.a/gemini/jogo-memoria/index.html" target="_blank">Link</a></li>
   <li>Loja Online (melhor projeto): <a href="https://mvp-compras-online.netlify.app/" target="_blank">Link</a></li>
+  <li>Assistente ChatBOT: <a href="https://raphaeldemouradev.github.io/projeto-com-i.a/gemini/assistente-ia/index.html">Link</a></li>
 </ul>
 
 ## Chatgpt
