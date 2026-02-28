@@ -1,51 +1,56 @@
+/**
+ * ARQUIVO: database.js
+ * FUNÇÃO: Armazenar respostas rápidas e comandos de sistema.
+ */
+
 const bancoDados = {
     "saudacoes": {
         keywords: ["olá", "oi", "bom dia", "boa tarde", "boa noite", "e aí"],
-        resposta: "Olá! Sou seu assistente virtual. Como posso te ajudar agora?"
+        resposta: "Olá! Sou o Alexandre. Como posso te ajudar hoje?"
     },
     "nome": {
         keywords: ["seu nome", "quem é você", "como se chama"],
-        resposta: "Eu sou o Alexandre, seu assistente pessoal em desenvolvimento!"
+        resposta: "Eu sou o Alexandre, seu assistente pessoal inteligente em desenvolvimento!"
     },
     "horas": {
-        keywords: ["horas", "que horas são", "horário"],
-        resposta: `Agora são exatamente ${new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}.`
-    },
-    "clima": {
-        keywords: ["tempo", "clima", "vai chover"],
-        resposta: "Eu ainda não tenho acesso à internet para ver a previsão, mas espero que o dia esteja bonito!"
+        keywords: ["que horas são", "horas", "horário"],
+        get resposta() {
+            const agora = new Date();
+            return `Agora são exatamente ${agora.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}.`;
+        }
     },
     "ajuda": {
-        keywords: ["ajuda", "o que você faz", "ajudar"],
-        resposta: "Eu posso te dizer as horas, conversar um pouco e mudar as cores do sistema!"
+        keywords: ["ajuda", "o que você faz", "ajudar", "comandos"],
+        resposta: "Eu posso te dizer as horas, conversar e pesquisar sobre qualquer personagem, série ou assunto na internet!"
     },
+    // COMANDOS DE ABERTURA (OPCIONAL)
     "google": {
-        keywords: ["abrir google", "pesquisar"],
-        resposta: "Certo, abrindo o Google.",
+        keywords: ["abrir google"],
+        resposta: "Abrindo o buscador Google...",
         acao: () => window.open('https://www.google.com', '_blank')
     },
     "youtube": {
         keywords: ["abrir youtube", "ver vídeo"],
-        resposta: "Abrindo o YouTube para você.",
+        resposta: "Certo, acessando o YouTube.",
         acao: () => window.open('https://www.youtube.com', '_blank')
     }
 };
 
-// Resposta padrão caso ele não entenda
-const respostaPadrao = "Interessante... mas ainda estou aprendendo sobre isso. Pode perguntar de outro jeito?";
-
-// Função para buscar a resposta
-function buscarResposta(mensagemUsuario) {
-    const texto = mensagemUsuario.toLowerCase();
+/**
+ * Função que verifica apenas o banco local.
+ * Se não encontrar, retorna 'null' para o script.js buscar na Web.
+ */
+function buscarRespostaLocal(mensagemUsuario) {
+    const texto = mensagemUsuario.toLowerCase().trim();
     
     for (let categoria in bancoDados) {
         const item = bancoDados[categoria];
         const encontrou = item.keywords.some(keyword => texto.includes(keyword));
         
         if (encontrou) {
-            if (item.acao) item.acao(); // Executa a função de abrir link se existir
+            if (item.acao) item.acao();
             return item.resposta;
         }
     }
-    return respostaPadrao;
+    return null; // Não achou no arquivo local
 }
