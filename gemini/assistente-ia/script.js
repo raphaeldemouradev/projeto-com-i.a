@@ -82,51 +82,39 @@ recognition.onresult = (e) => {
 };
 
 // FUNÇÃO DE PROCESSAMENTO AO ENVIAR
+/**
+ * NOVO PROCESSAR ENVIO (Substitua a antiga por esta)
+ */
 async function processarEnvio() {
     const texto = inputField.value.trim();
-    if (texto === "") return;
+    if (!texto) return;
 
-    // 1. Adiciona a mensagem do usuário na tela e limpa o campo
+    // 1. Interface: Mostra a mensagem do usuário e limpa o campo
     adicionarBolha(texto, 'user-msg');
     inputField.value = "";
 
-    // 2. Tenta buscar no Banco de Dados Local (database.js)
-    let respostaLocal = buscarRespostaLocal(texto);
-
-    if (respostaLocal) {
-        // Se achou no banco local (oi, horas, comandos), responde direto
-        exibirRespostaIA(respostaLocal);
-    } else {
-        // 3. Se não achou, aciona o MOTOR GLOBAL (wiki.js)
-        adicionarBolha("Consultando base de conhecimento global...", 'ai-msg-temp');
+    // 2. Feedback: Cria a bolha de "pensando"
+    adicionarBolha("Processando...", 'ai-msg-temp');
+    
+    try {
+        // 3. ORQUESTRAÇÃO: O Orquestrador decide o destino (Local vs Wiki)
+        // Certifique-se de que o arquivo main-processor.js está carregado no HTML
+        const resultado = await OrquestradorIA.decidirEResponder(texto);
         
-        try {
-            // Chamada para o objeto que criamos no wiki.js
-            const resultadoGlobal = await WikiEngine.buscar(texto);
-            
-            // Remove a bolha de "carregando"
-            const tempMsg = document.querySelector('.ai-msg-temp');
-            if (tempMsg) tempMsg.remove();
+        // 4. Limpeza: Remove a bolha de carregamento
+        const tempMsg = document.querySelector('.ai-msg-temp');
+        if (tempMsg) tempMsg.remove();
 
-            if (resultadoGlobal && resultadoGlobal.resumo) {
-                // Alexandre responde com o que o motor Wiki encontrou
-                exibirRespostaIA(resultadoGlobal.resumo);
-            } else {
-                // Caso a Wikipedia também não saiba
-                exibirRespostaIA("Desculpe, não encontrei informações sobre este assunto nos meus registros locais ou globais.");
-            }
-        } catch (erro) {
-            console.error("Erro na integração:", erro);
-            const tempMsg = document.querySelector('.ai-msg-temp');
-            if (tempMsg) tempMsg.remove();
-            exibirRespostaIA("Houve um erro ao tentar acessar minha base de dados global.");
-        }
+        // 5. Resposta: Exibe o conteúdo final e aciona a voz
+        adicionarBolha(resultado.conteudo, 'ai-msg');
+        falarTexto(resultado.conteudo);
+        
+    } catch (erro) {
+        console.error("Erro no Orquestrador:", erro);
+        const tempMsg = document.querySelector('.ai-msg-temp');
+        if (tempMsg) tempMsg.remove();
+        adicionarBolha("Ops! Tive um problema ao processar essa informação.", 'ai-msg');
     }
-}
-
-function exibirRespostaIA(texto) {
-    adicionarBolha(texto, 'ai-msg');
-    falarTexto(texto);
 }
 
 function adicionarBolha(texto, classe) {
