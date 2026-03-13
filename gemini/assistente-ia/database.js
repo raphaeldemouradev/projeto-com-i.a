@@ -5,7 +5,7 @@
 
 const bancoDados = {
     "saudacoes": {
-        keywords: ["olá", "oi", "bom dia", "boa tarde", "boa noite", "e aí"],
+        keywords: ["olá", "ola", "oi", "bom dia", "boa tarde", "boa noite", "e aí", "tudo bem"],
         resposta: "Olá! Sou o Alexandre. Como posso te ajudar hoje?"
     },
     "nome": {

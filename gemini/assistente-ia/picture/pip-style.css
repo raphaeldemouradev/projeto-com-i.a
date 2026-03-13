@@ -1,0 +1,23 @@
+/* picture/pip-style.css */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a; /* Cor de fundo do seu tema */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.chat-card {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important; /* Na janela PiP, bordas arredondadas podem comer pixels */
+    box-shadow: none !important;
+}
+
+/* Garante que o campo de texto e botões fiquem visíveis na janela pequena */
+.input-area {
+    padding: 10px;
+}

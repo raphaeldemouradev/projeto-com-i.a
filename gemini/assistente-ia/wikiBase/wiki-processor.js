@@ -23,10 +23,12 @@ const WikiProcessor = {
 
         // Remove palavras que "sujam" a pesquisa enciclopédica
         const ruidos = [
-            "o que é", "quem é", "quem foi", "me fale sobre", 
-            "defina", "significado de", "pesquise", "procure por"
+            "o que é", "quem é", "o que é a", "quem foi", "me fale sobre", 
+            "defina", "significado de", "pesquise", "procure por",
+            "quem fundou a", "quem fundou", "quem criou a", "quem criou",
+            "quando nasceu", "onde nasceu",
         ];
-        
+
         ruidos.forEach(ruido => {
             termo = termo.replace(ruido, "");
         });
@@ -38,7 +40,7 @@ const WikiProcessor = {
 
         // Capitaliza para o padrão Wiki (Primeira Letra Maiúscula de cada palavra)
         // Ex: "buraco negro" -> "Buraco_Negro"
-        return termo.split(' ')
+        return termo.trim().split(' ')
             .map(p => p.charAt(0).toUpperCase() + p.slice(1))
             .join('_'); // A Wiki prefere Underline no lugar de espaço na URL
     },

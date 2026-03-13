@@ -5,7 +5,12 @@
 const DuckProcessor = {
     limparPergunta(texto) {
         let termo = texto.toLowerCase().trim();
-        const ruidos = ["o que é", "quem é", "defina", "me fale sobre", "significado de"];
+        const ruidos = [
+            "o que é", "quem é", "o que é a", "quem foi", "me fale sobre", 
+            "defina", "significado de", "pesquise", "procure por",
+            "quem fundou a", "quem fundou", "quem criou a", "quem criou",
+            "quando nasceu", "onde nasceu",
+        ];
         
         ruidos.forEach(r => termo = termo.replace(r, ""));
         return termo.trim();

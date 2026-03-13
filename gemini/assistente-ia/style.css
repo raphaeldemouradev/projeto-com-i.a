@@ -69,6 +69,30 @@ body {
     box-shadow: 0 0 10px #22c55e;
 }
 
+/* Estilo para o botão de segundo plano */
+#btn-pip {
+    background: transparent;
+    border: none;
+    color: white; /* Ou a cor que você usa no header */
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin-left: auto; /* Isso empurra ele e o som para a direita */
+    margin-right: 10px; /* Espaço entre ele e o som */
+    transition: transform 0.2s;
+}
+
+#btn-pip:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+/* Ajuste no header para alinhar tudo horizontalmente */
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 #btn-mute {
     background: transparent;
     border: none;

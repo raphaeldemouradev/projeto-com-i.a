@@ -1,34 +1,72 @@
 /**
  * ARQUIVO: main-processor.js
- * ORDEM: Local -> DuckDuckGo -> Wikipédia
+ * FUNÇÃO: Orquestrador central com gerenciamento de contexto persistente.
+ * ORDEM: 1. Local -> 2. DuckDuckGo -> 3. Wikipédia
  */
+
 const OrquestradorIA = {
     async decidirEResponder(textoBruto) {
-        const texto = textoBruto.toLowerCase().trim();
+        if (!textoBruto) return { conteudo: "..." };
 
-        // --- 1. PRIMEIRO: BANCO LOCAL ---
+        // --- 1. PROCESSAMENTO DE CONTEXTO ---
+        // Verifica se a pergunta usa pronomes (ele, ela, etc) e injeta o assunto anterior
+        const perguntaAjustada = ContextProcessor.processar(textoBruto);
+        console.log("💬 Pergunta processada:", perguntaAjustada);
+
+        // --- 2. TENTATIVA NO BANCO LOCAL ---
         if (typeof buscarRespostaLocal === "function") {
-            const respLocal = buscarRespostaLocal(texto);
-            if (respLocal) return { conteudo: respLocal };
+            const respostaLocal = buscarRespostaLocal(textoBruto);
+            if (respostaLocal) {
+                console.log("Fonte: Banco Local");
+                return { conteudo: respostaLocal };
+            }
         }
 
-        // --- 2. SEGUNDO: DUCKDUCKGO (Busca Web) ---
+        // --- 3. TENTATIVA DUCKDUCKGO (Busca Web Direta) ---
         try {
             if (typeof DuckProcessor !== "undefined") {
-                const respDuck = await DuckProcessor.executarBusca(textoBruto);
-                if (respDuck) return { conteudo: `[Web]: ${respDuck}` };
-            }
-        } catch (e) { console.error("Erro DuckDuckGo"); }
+                // Para o Duck, enviamos a pergunta com contexto para melhor precisão
+                const respDuck = await DuckProcessor.executarBusca(perguntaAjustada);
+                
+                if (respDuck) {
+                    console.log("Fonte: DuckDuckGo");
+                    
+                    // ATUALIZAÇÃO DE CONTEXTO: Pegamos o que foi pesquisado e limpamos
+                    const termoPesquisado = DuckProcessor.limparPergunta(textoBruto);
+                    ContextProcessor.salvarContexto(termoPesquisado);
 
-        // --- 3. TERCEIRO: WIKIPÉDIA (Enciclopédia) ---
+                    return { conteudo: `[Web]: ${respDuck}` };
+                }
+            }
+        } catch (e) {
+            console.error("Erro no fluxo DuckDuckGo:", e);
+        }
+
+        // --- 4. TENTATIVA WIKIPÉDIA (Enciclopédia) ---
         try {
             if (typeof WikiProcessor !== "undefined") {
-                const respWiki = await WikiProcessor.executarBusca(textoBruto);
-                if (respWiki) return { conteudo: `[Wiki]: ${respWiki}` };
-            }
-        } catch (e) { console.error("Erro Wikipédia"); }
+                const respWiki = await WikiProcessor.executarBusca(perguntaAjustada);
+                
+                if (respWiki) {
+                    console.log("Fonte: Wikipédia");
 
-        // FALLBACK
-        return { conteudo: "Não encontrei informações sobre isso. Pode tentar de outro modo?" };
+                    // ATUALIZAÇÃO DE CONTEXTO: Formata o termo da Wiki para texto legível
+                    // Ex: "Gabriel_Jesus" vira "Gabriel Jesus"
+                    const termoWiki = WikiProcessor.prepararTermo(textoBruto);
+                    if (termoWiki) {
+                        ContextProcessor.salvarContexto(termoWiki.replace(/_/g, " "));
+                    }
+
+                    return { conteudo: `[Wiki]: ${respWiki}` };
+                }
+            }
+        } catch (e) {
+            console.error("Erro no fluxo Wikipédia:", e);
+        }
+
+        // --- 5. FALLBACK FINAL ---
+        return { 
+            conteudo: "Não encontrei informações sobre isso. Tente ser mais específico no nome do assunto." 
+        };
     }
 };

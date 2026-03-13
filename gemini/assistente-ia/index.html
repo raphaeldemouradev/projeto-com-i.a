@@ -6,7 +6,6 @@
     <title>Alexandre - Assistente Pessoal</title>
     
     <link rel="stylesheet" href="style.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -17,7 +16,11 @@
                 <div class="status-dot"></div>
                 <strong>Alexandre AI</strong>
             </div>
-            
+
+            <button id="btn-pip" title="Modo Segundo Plano">
+                <i class="fas fa-window-restore"></i>
+            </button>
+
             <button id="btn-mute" title="Ativar/Desativar som">
                 <i class="fas fa-volume-up"></i>
             </button>
@@ -41,13 +44,16 @@
     </div>
 
     <script src="script.js"></script>
-    <script src="database.js"></script>
-    <script src="main-processador.js"></script>
+    <script src="picture/pip-controller.js"></script>
 
-    <script src="wikiBase/wiki-engine.js"></script>
-    <script src="wikiBase/wiki-processor.js"></script>
+    <script src="context-processor.js"></script>
+    <script src="main-processador.js"></script>
+    <script src="database.js"></script>
 
     <script src="search/duck-engine.js"></script>
     <script src="search/duck-processor.js"></script>
+
+    <script src="wikiBase/wiki-engine.js"></script>
+    <script src="wikiBase/wiki-processor.js"></script>
 </body>
 </html>
