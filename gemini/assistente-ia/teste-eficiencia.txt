@@ -1,0 +1,13 @@
+1 - Teste de sanidade:
+- Perguntar algo do database local, (não pode buscar da web).
+
+2 - Teste Contextual:
+-Perguntar sober: Apple.
+-Perguntar: Gabriel Jesus.
+Perguntar idade e responder Apple. (Falha).
+
+3 - Sem resultados:
+-Mandar algo estranho sem sentido e não quebrar a busca;.
+
+4 - Busca semelhantes:
+Java a ilha e linguagem java. (deve responder sobre a ultima interação).
